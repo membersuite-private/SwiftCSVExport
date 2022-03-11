@@ -32,11 +32,18 @@ import Foundation
     
     /// Export singleton
     @objc open class var export: CSVExport {
-        
-        struct Static {
-            static let instance: CSVExport = CSVExport()
+        if Static.instance == nil {
+            Static.instance = CSVExport()
         }
-        return Static.instance
+        return Static.instance!
+    }
+    
+    public struct Static {
+        static var instance: CSVExport?
+    }
+    
+    @objc open func dispose() {
+        CSVExport.Static.instance = nil
     }
     
     // MARK: - Util - Functions
